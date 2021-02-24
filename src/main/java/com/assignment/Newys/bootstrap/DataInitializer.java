@@ -4,6 +4,7 @@ import com.assignment.Newys.models.Role;
 import com.assignment.Newys.models.User;
 import com.assignment.Newys.repository.RoleRepository;
 import com.assignment.Newys.repository.UserRepository;
+import com.google.common.collect.Sets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Component
 public class DataInitializer implements ApplicationListener<ContextRefreshedEvent> {
@@ -46,12 +45,24 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
 
         final Role adminRole = createRoleIfNotFound("ADMIN");
         final Role readerRole = createRoleIfNotFound("READER");
-        final Role writerRole = createRoleIfNotFound("WRITER");
+        final Role authorRole = createRoleIfNotFound("AUTHOR");
 
         createUserIfNotFound(
                 "admin",
                 "$2y$10$/XVvRiYKC7S61Y.HbGdScuWyBi6/FdDh34kRAGtIEiw7QjzKLaMea",
-                new ArrayList<>(Arrays.asList(adminRole))
+                Sets.newHashSet(adminRole)
+        );
+
+        createUserIfNotFound(
+                "reader",
+                "$2y$10$dNQus9y6XpQv9uxf6PGtFO5Ek9Q52PWA556P7mMv9UI1qwG8x3q/.",
+                Sets.newHashSet(readerRole)
+        );
+
+        createUserIfNotFound(
+                "author",
+                "$2y$10$RK9gfqZH/Ad1imlyr7BLdOvEiQTdYdSPsHpbxb/v7BKMbid51jYVe",
+                Sets.newHashSet(authorRole)
         );
 
         initDone = true;
@@ -73,13 +84,12 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
     }
 
     @Transactional
-    public User createUserIfNotFound(final String username, final String password, final List<Role> roles) {
+    public User createUserIfNotFound(final String username, final String password, final Set<Role> roles) {
         Optional<User> user = userRepository.findByUsername(username);
         User newUser;
         if (!user.isPresent()) {
             newUser = new User();
             newUser.setUsername(username);
-            newUser.setActive(true);
             newUser.setPassword(password);
             newUser.setRoles(roles);
             userRepository.save(newUser);

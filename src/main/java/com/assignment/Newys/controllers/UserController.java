@@ -1,32 +1,35 @@
 package com.assignment.Newys.controllers;
 
-import com.assignment.Newys.models.NewsArticle;
+import com.assignment.Newys.DTO.MessageDto;
+import com.assignment.Newys.DTO.UserDto;
+import com.assignment.Newys.security.services.AppUserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/user")
 public class UserController {
 
-    List<NewsArticle> articles = Arrays.asList(
-            new NewsArticle(1L, "fj;as;lfjalk;sdf"),
-            new NewsArticle(2L, "afj;asdljfdhjasdkf")
-    );
+    private final AppUserService userService;
 
-    @GetMapping(path = "/all")
-    public List<NewsArticle> getAll(){
-        return articles;
+    public UserController(AppUserService userService) {
+        this.userService = userService;
     }
 
-    @PostMapping(path = "/")
-    public void addUser(){
 
+//    @GetMapping(path = "/all")
+//    public List<NewsArticle> getAll(){
+//
+//    }
+
+    @PostMapping(value = "/")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addUser(@RequestBody UserDto user){
+        userService.registerNewUser(user);
     }
 
-    @DeleteMapping(path = "/")
-    public void deleteUser(){
-
+    @DeleteMapping(path = "/{username}")
+    public MessageDto deleteUser(@PathVariable String username){
+       return userService.deleteUser(username);
     }
 }

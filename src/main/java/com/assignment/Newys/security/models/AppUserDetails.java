@@ -1,48 +1,45 @@
 package com.assignment.Newys.security.models;
 
+import com.assignment.Newys.models.Role;
 import com.assignment.Newys.models.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
 public class AppUserDetails implements UserDetails {
 
-    private final List<? extends GrantedAuthority> grantedAuthorities;
-    private final String password;
-    private final String username;
-    private final boolean isEnabled;
+    private final User user;
 
     public AppUserDetails(User user) {
-        this.username = user.getUsername();
-        this.password = user.getPassword();
-        this.isEnabled = user.isActive();
-        this.grantedAuthorities = Arrays.stream(user.getRoles()
-                .toString()
-                .toUpperCase()
-                .split(","))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return grantedAuthorities;
+        Set<Role> roles = user.getRoles();
+
+
+        List<SimpleGrantedAuthority> authorities =
+                roles.stream()
+                        .map(role -> new SimpleGrantedAuthority(role.getName()))
+                        .collect(Collectors.toList());
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return password;
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return user.getUsername();
     }
 
     @Override
@@ -62,6 +59,6 @@ public class AppUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return isEnabled;
+        return true;
     }
 }

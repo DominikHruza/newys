@@ -1,4 +1,4 @@
-package com.assignment.Newys.jwt;
+package com.assignment.Newys.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

@@ -1,26 +1,31 @@
 package com.assignment.Newys.models;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-
+@Entity
 public class NewsArticle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    String header;
+
+    @Column(columnDefinition="text")
     String content;
 
-    public NewsArticle(Long id, String content) {
-        this.id = id;
+    String createdAt;
+
+    @ManyToOne
+    User user;
+
+    public NewsArticle(String header, String content, String createdAt) {
         this.content = content;
+        this.createdAt = createdAt;
+        this.header = header;
     }
 }

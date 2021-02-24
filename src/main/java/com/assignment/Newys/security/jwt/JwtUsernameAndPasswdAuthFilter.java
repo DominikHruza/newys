@@ -1,4 +1,4 @@
-package com.assignment.Newys.jwt;
+package com.assignment.Newys.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;

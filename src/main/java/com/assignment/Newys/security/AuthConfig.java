@@ -1,12 +1,13 @@
 package com.assignment.Newys.security;
 
-import com.assignment.Newys.jwt.JwtConfig;
-import com.assignment.Newys.jwt.JwtUsernameAndPasswdAuthFilter;
-import com.assignment.Newys.jwt.JwtVerifier;
+import com.assignment.Newys.security.jwt.JwtConfig;
+import com.assignment.Newys.security.jwt.JwtUsernameAndPasswdAuthFilter;
+import com.assignment.Newys.security.jwt.JwtVerifier;
 import com.assignment.Newys.security.services.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,6 +17,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.crypto.SecretKey;
+
+import static com.assignment.Newys.security.models.AppUserRole.ADMIN;
+import static com.assignment.Newys.security.models.AppUserRole.AUTHOR;
 
 
 @Configuration
@@ -48,7 +52,8 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(new JwtVerifier(jwtConfig, secretKey), JwtUsernameAndPasswdAuthFilter.class)
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                //.antMatchers("/api/admin/**").hasRole("ADMIN")
+                .antMatchers("/api/admin/**").hasAuthority(ADMIN.name())
+                .antMatchers(HttpMethod.POST, "/api/article/").hasAuthority(AUTHOR.name())
                 .anyRequest()
                 .authenticated();
     }

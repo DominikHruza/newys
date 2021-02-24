@@ -1,4 +1,4 @@
-package com.assignment.Newys.jwt;
+package com.assignment.Newys.security.jwt;
 
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
