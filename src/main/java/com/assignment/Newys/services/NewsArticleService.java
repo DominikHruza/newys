@@ -8,5 +8,7 @@ import java.util.List;
 
 public interface NewsArticleService {
     List<NewsArticle> getAllArticles();
-    public void addNewArticle(ArticleDto articleDto, User user);
+    public NewsArticle addNewArticle(ArticleDto articleDto, User user);
+    public NewsArticle updateArticle(ArticleDto articleDto, Long articleId);
+    public void deleteArticle(Long id);
 }

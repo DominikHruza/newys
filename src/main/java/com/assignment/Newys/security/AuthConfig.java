@@ -54,6 +54,7 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/api/admin/**").hasAuthority(ADMIN.name())
                 .antMatchers(HttpMethod.POST, "/api/article/").hasAuthority(AUTHOR.name())
+                .antMatchers(HttpMethod.DELETE, "/api/article/").hasAuthority(ADMIN.name())
                 .anyRequest()
                 .authenticated();
     }
