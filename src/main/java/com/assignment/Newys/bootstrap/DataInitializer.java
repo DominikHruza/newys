@@ -93,7 +93,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             newUser.setPassword(password);
             newUser.setRoles(roles);
             userRepository.save(newUser);
-            logger.info("User with username: " + username + " initalised.");
+            logger.info("User with username: " + username + " initialised.");
             return newUser;
         } else {
             return user.get();

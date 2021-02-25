@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/article")
@@ -23,6 +24,17 @@ public class NewsArticleController {
         this.articleCrudFacade = articleCrudFacade;
     }
 
+    @GetMapping(path = "/all")
+    public List<ArticleDto> getAll(){
+        return newsArticleService.getAllArticles();
+    }
+
+    @GetMapping(path = "/{articleId}")
+    public ArticleDto getSingleArticle(
+            @PathVariable Long articleId){
+        return newsArticleService.getArticleById(articleId);
+    }
+
     @PostMapping(value = "/")
     @ResponseStatus(HttpStatus.CREATED)
     public ArticleDto addUser(@RequestBody ArticleDto articleDto){
@@ -31,7 +43,7 @@ public class NewsArticleController {
 
     @PutMapping(value = "/{articleId}")
     @ResponseStatus(HttpStatus.OK)
-    public ArticleDto updateMemberSkills(
+    public ArticleDto updateArticle(
             @PathVariable Long articleId,
             @RequestBody ArticleDto articleDto,
             Principal principal){
@@ -45,7 +57,7 @@ public class NewsArticleController {
 
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteUser(@PathVariable Long id){
+    public void deleteArticle(@PathVariable Long id){
         newsArticleService.deleteArticle(id);
     }
 }

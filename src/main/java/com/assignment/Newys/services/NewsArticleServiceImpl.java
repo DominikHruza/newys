@@ -1,6 +1,8 @@
 package com.assignment.Newys.services;
 
 import com.assignment.Newys.DTO.ArticleDto;
+import com.assignment.Newys.DTO.UserDto;
+import com.assignment.Newys.exceptions.DuplicateResourceEntryException;
 import com.assignment.Newys.exceptions.NotFoundInDbException;
 import com.assignment.Newys.models.NewsArticle;
 import com.assignment.Newys.models.User;
@@ -12,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class NewsArticleServiceImpl implements NewsArticleService {
@@ -24,8 +27,19 @@ public class NewsArticleServiceImpl implements NewsArticleService {
     }
 
     @Override
-    public List<NewsArticle> getAllArticles() {
-        return null;
+    public  List<ArticleDto> getAllArticles() {
+        List<NewsArticle> articles = newsArticleRepository.findAll();
+        List<ArticleDto> articleDtos = articles.stream()
+                .map(article -> ArticleDto.ConvertToDto(article))
+                .collect(Collectors.toList());
+
+        return articleDtos;
+    }
+
+    @Override
+    public ArticleDto getArticleById(Long id) {
+        NewsArticle article = checkIfArticleExists(id);
+        return ArticleDto.ConvertToDto(article);
     }
 
     @Transactional
@@ -61,11 +75,46 @@ public class NewsArticleServiceImpl implements NewsArticleService {
         newsArticleRepository.delete(article);
     }
 
+    @Override
+    @Transactional
+    public NewsArticle saveLike(Long articleId, User user) {
+        NewsArticle article = checkIfArticleExists(articleId);
+        boolean isAdded = article.addLike(user);
+        if(!isAdded){
+            throw new DuplicateResourceEntryException(
+                    "Article with id: " + articleId + " already liked by user: " + user.getUsername());
+        }
+
+        return newsArticleRepository.save(article);
+    }
+
+    @Override
+    @Transactional
+    public NewsArticle deleteLike(Long articleId, User user) {
+        NewsArticle article = checkIfArticleExists(articleId);
+        boolean isRemoved = article.getLikes().remove(user);
+
+        if(!isRemoved){
+            throw new NotFoundInDbException(
+                    "Article with id: " + articleId + " not liked by user: " + user.getUsername());
+        }
+        return newsArticleRepository.save(article);
+    }
+
+    @Override
+    public List<UserDto> getAllLikes(Long articleId) {
+       NewsArticle article = checkIfArticleExists(articleId);
+       List<UserDto> userDtos = article
+               .getLikes()
+               .stream()
+               .map(user -> UserDto.convertToDto(user))
+               .collect(Collectors.toList());
+       return userDtos;
+    }
+
     private NewsArticle checkIfArticleExists(Long id){
         Optional<NewsArticle> optionalUser = newsArticleRepository.findById(id);
-        if(!optionalUser.isPresent()){
-            throw new NotFoundInDbException("Article with id " + id + " does not exists");
-        }
-        return optionalUser.get();
+        return optionalUser.orElseThrow(() ->
+                new NotFoundInDbException("Article with id " + id + " does not exists"));
     }
 }

@@ -37,6 +37,15 @@ public class User {
     @OneToMany(mappedBy = "user")
     List<NewsArticle> articles = new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "article_likes",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "article_id", referencedColumnName = "id"))
+    Set<NewsArticle> likedArticles = new HashSet<>();
+
     public User(String username, String password) {
          this.username = username;
          this.password = password;
@@ -44,5 +53,24 @@ public class User {
 
     public void addArticle(NewsArticle article){
         articles.add(article);
+    }
+
+    public boolean addLikedArticle(NewsArticle article){
+        return likedArticles.add(article);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+
+        User user = (User) o;
+
+        return getUsername().equals(user.getUsername());
+    }
+
+    @Override
+    public int hashCode() {
+        return getUsername().hashCode();
     }
 }

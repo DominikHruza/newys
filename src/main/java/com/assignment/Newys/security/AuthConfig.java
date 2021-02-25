@@ -3,7 +3,7 @@ package com.assignment.Newys.security;
 import com.assignment.Newys.security.jwt.JwtConfig;
 import com.assignment.Newys.security.jwt.JwtUsernameAndPasswdAuthFilter;
 import com.assignment.Newys.security.jwt.JwtVerifier;
-import com.assignment.Newys.security.services.AppUserService;
+import com.assignment.Newys.services.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

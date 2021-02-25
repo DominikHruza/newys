@@ -2,7 +2,7 @@ package com.assignment.Newys.controllers;
 
 import com.assignment.Newys.DTO.MessageDto;
 import com.assignment.Newys.DTO.UserDto;
-import com.assignment.Newys.security.services.AppUserService;
+import com.assignment.Newys.services.AppUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
