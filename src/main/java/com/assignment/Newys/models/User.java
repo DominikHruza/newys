@@ -35,16 +35,19 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
-    List<NewsArticle> articles = new ArrayList<>();
+    private List<NewsArticle> articles = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "groupOwner")
+    private List<UserGroup> groups = new ArrayList<>();
+
+    @ManyToMany()
     @JoinTable(
             name = "article_likes",
             joinColumns = @JoinColumn(
                     name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
                     name = "article_id", referencedColumnName = "id"))
-    Set<NewsArticle> likedArticles = new HashSet<>();
+    private Set<NewsArticle> likedArticles = new HashSet<>();
 
     public User(String username, String password) {
          this.username = username;

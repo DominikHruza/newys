@@ -6,6 +6,7 @@ import com.assignment.Newys.exceptions.DuplicateResourceEntryException;
 import com.assignment.Newys.exceptions.NotFoundInDbException;
 import com.assignment.Newys.models.NewsArticle;
 import com.assignment.Newys.models.User;
+import com.assignment.Newys.models.UserGroup;
 import com.assignment.Newys.repository.NewsArticleRepository;
 import org.springframework.stereotype.Service;
 
@@ -110,6 +111,14 @@ public class NewsArticleServiceImpl implements NewsArticleService {
                .map(user -> UserDto.convertToDto(user))
                .collect(Collectors.toList());
        return userDtos;
+    }
+
+    @Override
+    @Transactional
+    public void addToGroup(Long articleId, UserGroup userGroup) {
+        NewsArticle article = checkIfArticleExists(articleId);
+        article.addGroup(userGroup);
+        newsArticleRepository.save(article);
     }
 
     private NewsArticle checkIfArticleExists(Long id){

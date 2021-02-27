@@ -18,8 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.crypto.SecretKey;
 
-import static com.assignment.Newys.security.models.AppUserRole.ADMIN;
-import static com.assignment.Newys.security.models.AppUserRole.AUTHOR;
+import static com.assignment.Newys.security.models.AppUserRole.*;
 
 
 @Configuration
@@ -55,6 +54,7 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/admin/**").hasAuthority(ADMIN.name())
                 .antMatchers(HttpMethod.POST, "/api/article/").hasAuthority(AUTHOR.name())
                 .antMatchers(HttpMethod.DELETE, "/api/article/").hasAuthority(ADMIN.name())
+                .antMatchers( "/api/likes/**").hasAuthority(READER.name())
                 .anyRequest()
                 .authenticated();
     }

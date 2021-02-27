@@ -15,18 +15,21 @@ public class NewsArticle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    String header;
+    private String header;
 
     @Column(columnDefinition="text")
-    String content;
+    private String content;
 
-    String createdAt;
+    private String createdAt;
 
     @ManyToOne
-    User user;
+    private User user;
 
     @ManyToMany(mappedBy = "likedArticles")
-    Set<User> likes = new HashSet<>();
+    private Set<User> likes = new HashSet<>();
+
+    @ManyToMany(mappedBy = "articles")
+    private Set<UserGroup> groups = new HashSet<>();
 
     public NewsArticle(String header, String content, String createdAt) {
         this.content = content;
@@ -36,6 +39,10 @@ public class NewsArticle {
 
     public boolean addLike(User user){
         return likes.add(user);
+    }
+
+    public boolean addGroup(UserGroup group){
+        return groups.add(group);
     }
 
     @Override

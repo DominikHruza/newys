@@ -65,6 +65,12 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
                 Sets.newHashSet(authorRole)
         );
 
+        createUserIfNotFound(
+                "author_reader",
+                "$2y$10$rbqz2Z/3uH4nooC4z2nQ.O0/DuknS3Tqh9cMZoX6rUVDNYUuHnAGu",
+                Sets.newHashSet(authorRole, readerRole)
+        );
+
         initDone = true;
         logger.info("Data init process done.");
     }

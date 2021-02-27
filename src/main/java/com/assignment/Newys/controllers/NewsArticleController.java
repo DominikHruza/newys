@@ -37,7 +37,7 @@ public class NewsArticleController {
 
     @PostMapping(value = "/")
     @ResponseStatus(HttpStatus.CREATED)
-    public ArticleDto addUser(@RequestBody ArticleDto articleDto){
+    public ArticleDto addArticle(@RequestBody ArticleDto articleDto, Principal principal){
        return articleCrudFacade.AddNewsArticle(articleDto);
     }
 
