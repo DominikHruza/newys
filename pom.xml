@@ -95,6 +95,9 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<finalName>
+						newys-rest
+					</finalName>
 				</configuration>
 			</plugin>
 		</plugins>
