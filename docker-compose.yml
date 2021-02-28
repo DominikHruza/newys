@@ -1,0 +1,26 @@
+version: "3"
+services:
+  mysql-instance:
+    image: "mysql:latest"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_PASSWORD=admin
+      - MYSQL_DATABASE=newysdb
+      - MYSQL_USER=admin
+    ports:
+      - "3306:3306"
+  newys-spring-boot-container:
+    image: springboot-docker-container
+    ports:
+      - "8090:8090"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-instance:3306/newysdb
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "root"
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      SPRING_JPA_HIBERNATE_DDL-AUTO: create-drop
+    build:
+      context: "./"
+      dockerfile: "Dockerfile"
+    depends_on:
+      - mysql-instance

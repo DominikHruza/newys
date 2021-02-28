@@ -5,15 +5,15 @@ import lombok.Data;
 
 @Data
 public class UserGroupDto {
-    private  Long groupOwner;
+    private  Long groupId;
     private String groupName;
-    private Long groupOwnerId;
+    private Long userId;
 
 
-    public UserGroupDto(Long groupOwner, String groupName, Long groupOwnerId) {
-        this.groupOwner = groupOwner;
+    public UserGroupDto(Long groupId, String groupName, Long userId) {
+        this.groupId = groupId;
         this.groupName = groupName;
-        this.groupOwnerId = groupOwnerId;
+        this.userId = userId;
     }
 
     public static UserGroupDto convertToDto(UserGroup userGroup){

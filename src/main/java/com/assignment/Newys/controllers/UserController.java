@@ -16,12 +16,6 @@ public class UserController {
         this.userService = userService;
     }
 
-
-//    @GetMapping(path = "/all")
-//    public List<NewsArticle> getAll(){
-//
-//    }
-
     @PostMapping(value = "/")
     @ResponseStatus(HttpStatus.CREATED)
     public void addUser(@RequestBody UserDto user){

@@ -67,7 +67,7 @@ public class AppUserService implements UserDetailsService, UserService {
             throw new NotFoundInDbException("User with name " + name + " does not exists");
         }
 
-        return new MessageDto("User  with name" + name + " deleted successfully");
+        return new MessageDto("User  with name " + name + " deleted successfully");
     }
 
     @Override

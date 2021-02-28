@@ -63,7 +63,7 @@ public class NewsArticleServiceImpl implements NewsArticleService {
         NewsArticle article = checkIfArticleExists(id);
 
         article.setHeader(articleDto.getHeader());
-        article.setContent(article.getContent());
+        article.setContent(articleDto.getContent());
         article.setCreatedAt(formatter.format(date));
 
         return newsArticleRepository.save(article);
