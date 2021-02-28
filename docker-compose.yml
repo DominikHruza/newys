@@ -9,6 +9,7 @@ services:
       - MYSQL_USER=admin
     ports:
       - "3306:3306"
+
   newys-spring-boot-container:
     image: springboot-docker-container
     ports:
@@ -24,3 +25,6 @@ services:
       dockerfile: "Dockerfile"
     depends_on:
       - mysql-instance
+    restart: on-failure
+
+
