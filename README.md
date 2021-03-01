@@ -74,7 +74,8 @@ POST http://localhost:8090/api/group/{groupId}/{articleId}
 ## Admin Endpoints 
 
 ### Add new user
-POST http://localhost:8090/api/admin/user/
+POST http://localhost:8090/api/admin/user/ 
+
 Body {
 "username":"new",
 "password":"new",
