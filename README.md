@@ -1,5 +1,8 @@
 # Newys
 
+This is a Spring Boot REST api. The database used in this project is MySql (version 8). 
+The database and tomcat server are ran from two separate docker containers.
+
 How to run:</br>
 From project root directory run command: docker-compose -f docker-compose.yml up
 
