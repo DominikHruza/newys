@@ -71,7 +71,7 @@ POST http://localhost:8090/api/group/{groupName}
 ### Add an article to group
 POST http://localhost:8090/api/group/{groupId}/{articleId}
 
-##Admin Endpoints
+###Admin Endpoints
 ####Add new user
 POST http://localhost:8090/api/admin/user/
 Body {
